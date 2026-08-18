@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <style>
+        @font-face {
+            font-family: 'Copperplate';
+            src: url('fonts/copperplategothicbold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+        }
+    body {
+        background-image: url(images/bg.jpg);
+        background-size: cover;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        text-align: center;
+        padding: 20px; 
+        background-color: #F5D03D;
+        color: rgb(176, 77, 11);
+        max-width: 1200px;
+        margin: 0 auto;
+        border-style: outset; border-color: rgb(159, 104, 0); border-radius: 25px;
+        box-sizing: border-box;
+    }
+    
+    footer {
+        text-align: center;
+        padding: 20px;
+        color: #888888;
+    }
+
+    main {
+        max-width: 1200px; 
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .layout-container {
+        display: flex;
+        gap: 30px;
+        margin-top: 20px;
+    }
+
+    nav {
+        width: 200px;
+        flex-shrink: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 20px;
+        border-radius: 8px;
+        height: fit-content;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;         
+        list-style: none;
+        padding: 0;
+    }
+
+    nav a {
+        color: #F5D03D;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+    }
+    nav a:hover {
+        color: #ffffff;
+    }
+
+    section#filmes {
+        flex: 1;
+    }
+
+    .filmes-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .filme-card {
+        background-color: #1c1c1c;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid #333;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .filme-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+    }
+
+    .filme-card img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        border-radius: 6px;
+        display: block;
+    }
+
+    .filme-card h2 {
+        font-size: 15px;
+        margin: 10px 5px 5px;
+        color: #F5D03D;
+    }
+
+    .filme-card p {
+        font-size: 13px;
+        margin: 3px 5px;
+        color: #aaaaaa;
+    }
+
+    .titulo {
+        color: #000000;
+        font-family: 'Copperplate', 'Copperplate Gothic Bold', 'Trebuchet MS', Arial, sans-serif;
+        font-weight: bold;
+        font-size: 56px;
+        letter-spacing: 3px;
+        text-decoration: none;
+    }
+
+    .modal-filme {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .modal-conteudo {
+        background-color: #1c1c1c;
+        border: 1px solid #333;
+        border-radius: 12px;
+        max-width: 800px;
+        width: 100%;
+        display: flex;
+        gap: 25px;
+        position: relative;
+        box-shadow: 0 0 20px rgba(245, 208, 61, 0.3);
+        overflow: hidden;
+        animation: fadeIn 0.4s;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-conteudo img {
+        width: 300px;
+        height: 100%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    .modal-info {
+        padding: 30px;
+        color: white;
+    }
+
+    .modal-info h2 {
+        color: #F5D03D;
+        font-size: 32px;
+        margin-top: 0;
+    }
+
+    .modal-info .meta {
+        color: #aaaaaa;
+        font-size: 14px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
+    }
+
+    .modal-info p.sinopse {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #ddd;
+    }
+
+    .btn-assistir {
+        margin-top: 25px;
+        background-color: #F5D03D;
+        color: rgb(176, 77, 11);
+        border: none;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-assistir:hover {
+        background-color: #fff;
+    }
+
+    .fechar-modal {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        color: #aaaaaa;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 10;
+        transition: color 0.2s;
+    }
+
+    .fechar-modal:hover {
+        color: #F5D03D;
+    }
+
+    </style>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitFlix</title>
+</head>
+<body>
+    <header>
+        <h1 class="titulo">GitFlix</h1>
+        <p>Filmes e Séries!</p>
+    </header>
+
+    <main>
+        <div class="layout-container">
+            <nav>
+                <ul>
+                    <li><a href="#filmes">Filmes</a></li>
+                    <li><a href="#series">Séries</a></li>
+                    <li><a href="#drama">Drama</a></li>
+                    <li><a href="#comedia">Comedia</a></li>
+                    <li><a href="#romance">Romance</a></li>
+                </ul>
+            </nav>
+
+            <section id="filmes">
+                <h2>Filmes em Destaque</h2>
+                
+                <div class="filmes-container">
+                    <div class="filme-card" onclick="abrirFilme('yago')">
+                        <img src="images/capa3.jpg" alt="YAGO">
+                        <h2>YAGO</h2>
+                        <p>Categoria: Suspense</p>
+                        <p>Ano: 2025</p>
+                    </div>
+                    
+                    <div class="filme-card" onclick="abrirFilme('vale-almoco')">
+                        <img src="images/capa1.jpg" alt="Vale Almoço">
+                        <h2>Vale Almoço</h2>
+                        <p>Categoria: Comédia</p>
+                        <p>Ano: 2025</p>
+                    </div>
+
+                    <div class="filme-card" onclick="abrirFilme('virou-bagunca')">
+                        <img src="images/virou.png" alt="Virou Bagunça">
+                        <h2>Virou Bagunça</h2>
+                        <p>Categoria: Comédia</p>
+                        <p>Ano: 2025</p>
+                    </div>
+
+                    <div class="filme-card" onclick="abrirFilme('terra-baguncada')">
+                        <img src="images/capa2.jpg" alt="bagunça">
+                        <h2>O dia que a terra ficou bagunçada</h2>
+                        <p>Categoria: Comédia</p>
+                        <p>Ano: 2025</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="modal-filme" class="modal-filme">
+        <div class="modal-conteudo">
+            <span class="fechar-modal" onclick="fecharFilme()">&times;</span>
+            <img id="modal-img" src="" alt="">
+            <div class="modal-info">
+                <h2 id="modal-titulo"></h2>
+                <div class="meta">
+                    <span id="modal-categoria"></span> | <span id="modal-ano"></span>
+                </div>
+                <p class="sinopse" id="modal-sinopse"></p>
+                <a href="#" id="btn-assistir" class="btn-assistir" target="_blank">▶ Assistir Agora</a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>nohan e pedro</footer>
+
+    <script>
+        const filmes = {
+            'yago': {
+                titulo: 'YAGO',
+                img: 'images/capa1.jpg',
+                categoria: 'Suspense',
+                ano: '2025',
+                sinopse: 'Um thriller eletrizante sobre Yago, um homem que descobre segredos sombrios em sua própria cidade. A cada passo, a verdade se torna mais perigosa e a paranoia toma conta.',
+                link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+            },
+            'vale-almoco': {
+                titulo: 'Vale Almoço',
+                img: 'images/capa2.jpg',
+                categoria: 'Comédia',
+                ano: '2025',
+                sinopse: 'A confusão começa quando funcionários de uma empresa decidem fazer um almoço que sai totalmente do controle. Uma comédia cheia de situações inusitadas e personagens excêntricos.',
+                link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+            },
+            'virou-bagunca': {
+                titulo: 'Virou Bagunça',
+                img: 'images/virou.png',
+                categoria: 'Comédia',
+                ano: '2025',
+                sinopse: 'Quando um evento simples vira o caos, um grupo de amigos precisa se unir para consertar a bagunça antes que seja tarde demais. Muitas risadas e confusões garantidas!',
+                link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+            },
+            'terra-baguncada': {
+                titulo: 'O dia que a terra ficou bagunçada',
+                img: 'images/capa3.jpg',
+                categoria: 'Comédia',
+                ano: '2025',
+                sinopse: 'Uma comédia sci-fi onde um evento alienígena inesperado transforma a Terra em um verdadeiro caos cômico. A humanidade nunca riu tanto em meio ao desespero.',
+                link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+            }
+        };
+
+        function abrirFilme(idFilme) {
+            const filme = filmes[idFilme];
+            
+            if (filme) {
+                document.getElementById('modal-img').src = filme.img;
+                document.getElementById('modal-img').alt = filme.titulo;
+                document.getElementById('modal-titulo').innerText = filme.titulo;
+                document.getElementById('modal-categoria').innerText = 'Categoria: ' + filme.categoria;
+                document.getElementById('modal-ano').innerText = 'Ano: ' + filme.ano;
+                document.getElementById('modal-sinopse').innerText = filme.sinopse;
+                
+                document.getElementById('btn-assistir').href = filme.link;
+                
+                document.getElementById('modal-filme').style.display = 'flex';
+            }
+        }
+
+        function fecharFilme() {
+            document.getElementById('modal-filme').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-filme');
+            if (event.target == modal) {
+                fecharFilme();
+            }
+        }
+    </script>
+</body>
+</html>
